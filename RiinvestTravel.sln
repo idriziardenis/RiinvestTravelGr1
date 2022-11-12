@@ -13,19 +13,22 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{DB296D53-5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C5367CD7-1E2A-47B9-B406-97662D2CDCA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiinvestTravel.App", "RiinvestTravel.App\RiinvestTravel.App.csproj", "{27732A1F-5A4A-438A-95E2-46C4456B8657}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiinvestTravel.App", "RiinvestTravel.App\RiinvestTravel.App.csproj", "{27732A1F-5A4A-438A-95E2-46C4456B8657}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiinvestTravel.Data", "RiinvestTravel.Data\RiinvestTravel.Data.csproj", "{5C32C3F6-1ED7-45E3-B429-24C742DD32F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiinvestTravel.Data", "RiinvestTravel.Data\RiinvestTravel.Data.csproj", "{5C32C3F6-1ED7-45E3-B429-24C742DD32F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiinvestTravel.Models", "RiinvestTravel.Models\RiinvestTravel.Models.csproj", "{FB1376B4-6CCF-4820-B411-8CE637EBCF86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiinvestTravel.Models", "RiinvestTravel.Models\RiinvestTravel.Models.csproj", "{FB1376B4-6CCF-4820-B411-8CE637EBCF86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiinvestTravel.Utilities", "RiinvestTravel.Utilities\RiinvestTravel.Utilities.csproj", "{C8580972-025D-4995-AE6C-BBFF3D6C170C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RiinvestTravel.Utilities", "RiinvestTravel.Utilities\RiinvestTravel.Utilities.csproj", "{C8580972-025D-4995-AE6C-BBFF3D6C170C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presantation", "Presantation\Presantation.csproj", "{9A2C115A-56A2-46A5-A25C-309F36679285}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presantation", "Presantation\Presantation.csproj", "{9A2C115A-56A2-46A5-A25C-309F36679285}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Schema", "Schema\Schema.sqlproj", "{B9BA3A94-BD5E-4946-B90C-BC8342290B4D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scaffolding", "Scaffolding", "{1974C3A1-88C0-46DD-92F3-991E7435B1AD}"
+	ProjectSection(SolutionItems) = preProject
+		Scaffolding Command.txt = Scaffolding Command.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

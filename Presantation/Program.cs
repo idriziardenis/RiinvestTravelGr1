@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using RiinvestTravel.App.Implementations;
+using RiinvestTravel.App.Interfaces;
+using RiinvestTravel.Data.Context;
 using RiinvestTravel.Data.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,12 +10,18 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<IdentityDbContext>(options =>
     options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<DBRiinvestTravelContext>(options =>
+    options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<IdentityDbContext>();
 builder.Services.AddRazorPages();
+
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IRolesRepository, RolesRepository>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
