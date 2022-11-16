@@ -26,6 +26,8 @@
   <link rel="stylesheet" href="~/theme/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="~/theme/plugins/summernote/summernote-bs4.min.css">
+
+  @RenderSection("Styles", false)
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -226,5 +228,7 @@
 <script src="~/theme/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="~/theme/js/pages/dashboard.js"></script>
+
+@RenderSection("Scripts", false)
 </body>
 </html>

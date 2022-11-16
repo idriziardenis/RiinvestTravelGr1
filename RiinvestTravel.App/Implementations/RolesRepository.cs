@@ -1,4 +1,5 @@
-﻿using RiinvestTravel.App.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using RiinvestTravel.App.Interfaces;
 using RiinvestTravel.Data.Context;
 using RiinvestTravel.Data.Entities;
 using System;
@@ -20,7 +21,7 @@ namespace RiinvestTravel.App.Implementations
 
         public AspNetRole? GetByUserId(string userId)
         {
-            return _riinvestTravelDbContext.AspNetUsers.FirstOrDefault(x => x.Id == userId)?.Roles.FirstOrDefault();
+            return _riinvestTravelDbContext.AspNetUsers.Include(x=> x.Roles).FirstOrDefault(x => x.Id == userId)?.Roles.FirstOrDefault();
         }
     }
 }
