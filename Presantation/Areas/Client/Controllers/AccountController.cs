@@ -14,7 +14,7 @@ using RiinvestTravel.App.Constants;
 namespace Presantation.Areas.Client
 {
     [Authorize]
-    [Area("Client")]
+    [Area(AreasConstants.Client)]
     [Route("[area]/[controller]/[action]")]
     public class AccountController : Controller
     {

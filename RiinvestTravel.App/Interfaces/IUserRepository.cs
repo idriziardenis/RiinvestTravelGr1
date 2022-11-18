@@ -10,5 +10,6 @@ namespace RiinvestTravel.App.Interfaces
     public interface IUserRepository : IRepository<AspNetUser>
     {
         AspNetUser? GetByStringId(string id);
+        List<AspNetUser> GetAllWithRoles();
     }
 }

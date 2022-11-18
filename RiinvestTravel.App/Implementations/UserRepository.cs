@@ -1,4 +1,5 @@
-﻿using RiinvestTravel.App.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using RiinvestTravel.App.Interfaces;
 using RiinvestTravel.Data.Context;
 using RiinvestTravel.Data.Entities;
 using System;
@@ -20,6 +21,11 @@ namespace RiinvestTravel.App.Implementations
         public AspNetUser? GetByStringId(string id)
         {
             return _riinvestTravelDbContext.AspNetUsers.FirstOrDefault(x => x.Id == id);
+        }
+
+        public List<AspNetUser> GetAllWithRoles()
+        {
+            return _riinvestTravelDbContext.AspNetUsers.Include(x => x.Roles).ToList();
         }
     }
 }

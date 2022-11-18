@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace RiinvestTravel.App.Interfaces
 {
-    public interface IRolesRepository
+    public interface IRolesRepository : IRepository<AspNetRole>
     {
         AspNetRole? GetByUserId(string userId);
+        AspNetRole? GetByStringId(string id);
     }
 }

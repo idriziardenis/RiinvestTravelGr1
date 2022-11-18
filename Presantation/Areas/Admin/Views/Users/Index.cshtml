@@ -33,9 +33,16 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
-            <div class="card">
+            <div class="card card-secondary">
               <div class="card-header">
-                <h3 class="card-title">Users List</h3>
+                <div class="row">
+                     <div class="col-md-6">
+                         <h3 class="card-title"><i class="fa fa-list"></i> &nbsp;&nbsp; Users List</h3>
+                     </div>
+                     <div class="col-md-6">
+                         <a asp-action="Add" style="float:right;" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i> &nbsp;&nbsp;Add</a>
+                     </div>
+                </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -74,7 +81,7 @@
 <script>
     $(document).ready( function () {
         var url = "@Url.Action("GetUsersJson", "Users")";
-        $("#user-list").DataTable({
+        var table = $("#user-list").DataTable({
             pageLength: 15,
             responsive: true,
             autoWidth: false,
@@ -104,6 +111,7 @@
                           }
                       } 
                  },
+                 { data: "role", title: "Role" },
                  { data: null, title: "Actions", sClass: "text-center", render: function (a, b, data, d) {
 
                             var actions = '<div class="btn-group btn-hspace">' +

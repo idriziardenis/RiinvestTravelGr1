@@ -10,11 +10,12 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using RiinvestTravel.Data.Identity;
+using RiinvestTravel.App.Constants;
 
-namespace Web.Controllers
+namespace Presantation.Areas.Client
 {
     [Authorize]
-    [Area("Client")]
+    [Area(AreasConstants.Client)]
     [Route("[area]/[controller]/[action]")]
     public class ManageController : Controller
     {

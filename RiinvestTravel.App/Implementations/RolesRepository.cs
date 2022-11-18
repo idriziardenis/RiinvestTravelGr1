@@ -10,13 +10,18 @@ using System.Threading.Tasks;
 
 namespace RiinvestTravel.App.Implementations
 {
-    public class RolesRepository : IRolesRepository
+    public class RolesRepository : Repository<AspNetRole>, IRolesRepository
     {
         protected readonly DBRiinvestTravelContext _riinvestTravelDbContext;
 
-        public RolesRepository(DBRiinvestTravelContext riinvestTravelDbContext)
+        public RolesRepository(DBRiinvestTravelContext riinvestTravelDbContext) : base(riinvestTravelDbContext)
         {
             _riinvestTravelDbContext = riinvestTravelDbContext;
+        }
+
+        public AspNetRole? GetByStringId(string id)
+        {
+            return _riinvestTravelDbContext.AspNetRoles.FirstOrDefault(x => x.Id == id);
         }
 
         public AspNetRole? GetByUserId(string userId)

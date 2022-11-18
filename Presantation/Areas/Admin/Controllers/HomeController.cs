@@ -4,7 +4,7 @@ using RiinvestTravel.App.Constants;
 
 namespace Presantation.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area(AreasConstants.Admin)]
     [Authorize(Roles = RoleConstants.Admin)]
     public class HomeController : Controller
     {
