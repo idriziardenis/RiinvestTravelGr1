@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RiinvestTravel.Data\RiinvestTravel.Data.csproj" />
+    <ProjectReference Include="..\RiinvestTravel.Models\RiinvestTravel.Models.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Presantation.Areas.Admin.Models.UsersViewModels;
 using RiinvestTravel.App.Constants;
 using RiinvestTravel.App.Interfaces;
@@ -17,8 +18,9 @@ namespace Presantation.Areas.Admin.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IRolesRepository rolesRepository;
         private readonly ILogger _logger;
+        private readonly ISelectListService selectListService;
 
-        public UsersController(IUserRepository userRepository, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IRolesRepository rolesRepository, ILogger<UsersController> logger)
+        public UsersController(IUserRepository userRepository, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IRolesRepository rolesRepository, ILogger<UsersController> logger, ISelectListService selectListService)
         {
             this.userRepository = userRepository;
             _userManager = userManager;
@@ -26,6 +28,7 @@ namespace Presantation.Areas.Admin.Controllers
             _roleManager = roleManager;
             this.rolesRepository = rolesRepository;
             _logger = logger;
+            this.selectListService = selectListService;
         }
 
         [HttpGet]
@@ -38,6 +41,7 @@ namespace Presantation.Areas.Admin.Controllers
         public IActionResult Add()
         {
             var model = new UserViewModel();
+            model.Roles = new SelectList(selectListService.GetRolesKeysValues(), "SKey", "Value", model.RoleId);
             return View(model);
         }
 
@@ -60,6 +64,9 @@ namespace Presantation.Areas.Admin.Controllers
                     RoleId = rolesRepository.GetByUserId(user.Id)!.Id,
                     Surname = user.Surname!,
                 };
+
+                model.Roles = new SelectList(selectListService.GetRolesKeysValues(), "SKey", "Value", model.RoleId);
+
                 return View("Add", model);
             }
 

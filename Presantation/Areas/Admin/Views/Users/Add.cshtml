@@ -122,10 +122,8 @@
                           <!-- select -->
                           <div class="form-group">
                             <label>Select role</label>
-                            <select asp-for="RoleId" class="form-control">
+                            <select asp-for="RoleId" asp-items="@Model.Roles" class="form-control">
                               <option value="">- Select Role -</option> 
-                              <option id="1" value="1">Client</option>
-                              <option id="2" value="2">Admin</option>
                             </select>
                           </div>
                         </div>

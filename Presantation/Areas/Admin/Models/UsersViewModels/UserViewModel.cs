@@ -1,4 +1,6 @@
-﻿namespace Presantation.Areas.Admin.Models.UsersViewModels
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace Presantation.Areas.Admin.Models.UsersViewModels
 {
     public class UserViewModel
     {
@@ -12,5 +14,7 @@
         public string? PhoneNumber { get; set; } = null!;
         public bool PhoneNumberConfirmed { get; set; }
         public string RoleId { get; set; } = null!;
+
+        public SelectList? Roles { get; set; }
     }
 }
