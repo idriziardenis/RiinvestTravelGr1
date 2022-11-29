@@ -24,6 +24,7 @@ namespace RiinvestTravel.Data.Context
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; } = null!;
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; } = null!;
         public virtual DbSet<Bu> buses { get; set; } = null!;
+        public virtual DbSet<UserPicture> UserPictures { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,40 +33,18 @@ namespace RiinvestTravel.Data.Context
                 entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
                     .IsUnique()
                     .HasFilter("([NormalizedName] IS NOT NULL)");
-
-                entity.Property(e => e.Name).HasMaxLength(256);
-
-                entity.Property(e => e.NormalizedName).HasMaxLength(256);
-            });
-
-            modelBuilder.Entity<AspNetRoleClaim>(entity =>
-            {
-                entity.HasIndex(e => e.RoleId, "IX_AspNetRoleClaims_RoleId");
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.AspNetRoleClaims)
-                    .HasForeignKey(d => d.RoleId);
             });
 
             modelBuilder.Entity<AspNetUser>(entity =>
             {
-                entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
-
                 entity.HasIndex(e => e.NormalizedUserName, "UserNameIndex")
                     .IsUnique()
                     .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
-                entity.Property(e => e.Email).HasMaxLength(256);
-
-                entity.Property(e => e.Name).HasMaxLength(150);
-
-                entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
-
-                entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
-
-                entity.Property(e => e.Surname).HasMaxLength(150);
-
-                entity.Property(e => e.UserName).HasMaxLength(256);
+                entity.HasOne(d => d.Picture)
+                    .WithMany(p => p.AspNetUsers)
+                    .HasForeignKey(d => d.PictureId)
+                    .HasConstraintName("FK_AspNetUsers_UserPicture");
 
                 entity.HasMany(d => d.Roles)
                     .WithMany(p => p.Users)
@@ -83,48 +62,14 @@ namespace RiinvestTravel.Data.Context
                         });
             });
 
-            modelBuilder.Entity<AspNetUserClaim>(entity =>
-            {
-                entity.HasIndex(e => e.UserId, "IX_AspNetUserClaims_UserId");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.AspNetUserClaims)
-                    .HasForeignKey(d => d.UserId);
-            });
-
             modelBuilder.Entity<AspNetUserLogin>(entity =>
             {
                 entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
-
-                entity.HasIndex(e => e.UserId, "IX_AspNetUserLogins_UserId");
-
-                entity.Property(e => e.LoginProvider).HasMaxLength(128);
-
-                entity.Property(e => e.ProviderKey).HasMaxLength(128);
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.AspNetUserLogins)
-                    .HasForeignKey(d => d.UserId);
             });
 
             modelBuilder.Entity<AspNetUserToken>(entity =>
             {
                 entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
-
-                entity.Property(e => e.LoginProvider).HasMaxLength(128);
-
-                entity.Property(e => e.Name).HasMaxLength(128);
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.AspNetUserTokens)
-                    .HasForeignKey(d => d.UserId);
-            });
-
-            modelBuilder.Entity<Bu>(entity =>
-            {
-                entity.ToTable("Bus");
-
-                entity.Property(e => e.Name).HasMaxLength(150);
             });
 
             OnModelCreatingPartial(modelBuilder);

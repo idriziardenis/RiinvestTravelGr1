@@ -15,6 +15,8 @@ namespace Presantation.Areas.Admin.Models.UsersViewModels
         public bool PhoneNumberConfirmed { get; set; }
         public string RoleId { get; set; } = null!;
 
+        public IFormFile? Picture { get; set; }
+
         public SelectList? Roles { get; set; }
     }
 }

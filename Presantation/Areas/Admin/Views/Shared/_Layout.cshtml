@@ -1,4 +1,5 @@
-﻿
+﻿@using RiinvestTravel.App.Constants
+
 @{
     var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
 }
@@ -167,16 +168,16 @@
         </div>
       </li>
       <li class="nav-item dropdown">
-        @if (culture == "sq-AL")
+        @if (culture == LanguageConstants.AlbanianKey)
         {
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="flag-icon flag-icon-al"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right p-0">
-                <a asp-area="Admin" asp-controller="Home" asp-action="SetLanguage" value="sq-AL" name="culture" asp-route-culture="sq-AL" class="dropdown-item active">
+                <a asp-area="Admin" asp-controller="Home" asp-action="SetLanguage" value="@LanguageConstants.AlbanianKey" name="culture" asp-route-culture="@LanguageConstants.AlbanianKey" class="dropdown-item active">
                     <i class="flag-icon flag-icon-al mr-2"></i> @SharedLocalizer["Albanian"]
                 </a>
-                <a asp-area="Admin" asp-controller="Home" asp-action="SetLanguage" value="en-US" name="culture" asp-route-culture="en-US" class="dropdown-item">
+                <a asp-area="Admin" asp-controller="Home" asp-action="SetLanguage" value="@LanguageConstants.EnglishKey" name="culture" asp-route-culture="@LanguageConstants.EnglishKey class="dropdown-item">
                     <i class="flag-icon flag-icon-us mr-2"></i> @SharedLocalizer["English"]
                 </a>
             </div>
@@ -187,10 +188,10 @@
                 <i class="flag-icon flag-icon-us"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right p-0">
-                <a asp-area="Admin" asp-controller="Home" asp-action="SetLanguage" value="en-US" name="culture" asp-route-culture="en-US" class="dropdown-item active">
+                <a asp-area="Admin" asp-controller="Home" asp-action="SetLanguage" value="@LanguageConstants.EnglishKey" name="culture" asp-route-culture="@LanguageConstants.EnglishKey" class="dropdown-item active">
                     <i class="flag-icon flag-icon-us mr-2"></i> @SharedLocalizer["English"]
                 </a>
-                <a asp-area="Admin" asp-controller="Home" asp-action="SetLanguage" value="sq-AL" name="culture" asp-route-culture="sq-AL" class="dropdown-item">
+                <a asp-area="Admin" asp-controller="Home" asp-action="SetLanguage" value="@LanguageConstants.AlbanianKey" name="culture" asp-route-culture="@LanguageConstants.AlbanianKey" class="dropdown-item">
                     <i class="flag-icon flag-icon-al mr-2"></i> @SharedLocalizer["Albanian"]
                 </a>
             </div>

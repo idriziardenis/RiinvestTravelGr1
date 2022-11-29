@@ -11,5 +11,8 @@ namespace RiinvestTravel.App.Interfaces
     {
         AspNetUser? GetByStringId(string id);
         List<AspNetUser> GetAllWithRoles();
+        UserPicture? GetUserPicture(string id);
+        void DeleteUserPicture(UserPicture userPicture);
+        void AddUserPicture(UserPicture userPicture);
     }
 }

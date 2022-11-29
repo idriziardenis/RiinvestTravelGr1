@@ -27,5 +27,22 @@ namespace RiinvestTravel.App.Implementations
         {
             return _riinvestTravelDbContext.AspNetUsers.Include(x => x.Roles).ToList();
         }
+
+        public UserPicture? GetUserPicture(string id)
+        {
+            return _riinvestTravelDbContext.AspNetUsers.Include(x => x.Picture).FirstOrDefault(x => x.Id == id)?.Picture;
+        }
+
+        public void DeleteUserPicture(UserPicture userPicture)
+        {
+            _riinvestTravelDbContext.UserPictures.Remove(userPicture);
+            _riinvestTravelDbContext.SaveChanges();
+        }
+
+        public void AddUserPicture(UserPicture userPicture)
+        {
+            _riinvestTravelDbContext.UserPictures.Add(userPicture);
+            _riinvestTravelDbContext.SaveChanges();
+        }
     }
 }

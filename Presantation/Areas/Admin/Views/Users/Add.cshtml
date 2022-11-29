@@ -5,9 +5,15 @@
     string cssClass = string.IsNullOrEmpty(Model.Id) ? "primary" : "warning";
     string cardTitle = string.IsNullOrEmpty(Model.Id) ? "Add" : "Edit";
     string cardTitleDescription = string.IsNullOrEmpty(Model.Id) ? "Add new user" : "Edit current user";
+
+    
+    var extensionsAll = "jpeg, jpg, png";
+    var extensions = extensionsAll.Split(",").Select(x => x.Trim()).ToArray();
 }
 
 @section Styles{
+     <!-- File Input-->
+    <link href="~/theme/plugins/fileinput/css/fileinput.min.css" rel="stylesheet" />
 
 }
 
@@ -46,7 +52,7 @@
                 <h3 class="card-title">@cardTitleDescription</h3>
               </div>
               <!-- /.card-header -->
-              <form id="UserForm" asp-action="Add" asp-controller="Users" asp-area="Admin" method="post">
+              <form id="UserForm" asp-action="Add" asp-controller="Users" asp-area="Admin" method="post" enctype="multipart/form-data">
                 <input type="hidden" asp-for="Id" />
                 <div class="card-body">
                     
@@ -117,7 +123,7 @@
                             </div>
                         </div>
                     </div>
-                      <div class="row">
+                    <div class="row">
                         <div class="col-sm-12">
                           <!-- select -->
                           <div class="form-group">
@@ -127,6 +133,20 @@
                             </select>
                           </div>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Picture</label>
+                                <div class="custom-file" >
+                                    <div>
+                                        <input asp-for="Picture" type="file" accept="image/*" class="input-sm validate-upload" />
+                                    </div>
+                                </div>
+                                <label><small>.jpg | 3mb max</small></label>
+                            </div>
+                        </div>
+                        <!-- /.col -->
                     </div>
                     
                 </div>
@@ -153,9 +173,15 @@
     <!-- jquery-validation -->
     <script src="~/theme/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="~/theme/plugins/jquery-validation/additional-methods.min.js"></script>
+    
+    <!-- File Input -->
+    <script src="~/theme/plugins/fileinput/js/fileinput.min.js"></script>
     <script>
         $(document).ready(function() {
         
+            var maxUpload = 3000;
+            var uploadExtensions = @Html.Raw(Json.Serialize(extensions));
+
             $('#UserForm').validate({
                 rules: {
                     Name: {
@@ -230,6 +256,25 @@
                 },
                 submitHandler: function (form) {
                     form.submit();
+                }
+            });
+
+            $("#Picture").fileinput({
+                theme: "fa",
+                showZoom: false,
+                browseOnZoneClick: true,
+                resizeImage: true,
+                resizeImageQuality: 0.3,
+                showRemove: true,
+                showUpload: false,
+                showBrowse: true,
+                showCancel: false,
+                dropZoneEnabled: false,
+                maxFileSize: maxUpload,
+                allowedFileExtensions: uploadExtensions,
+                initialPreviewAsData: true,
+                fileActionSettings: {
+                    showRemove: true,
                 }
             });
         })

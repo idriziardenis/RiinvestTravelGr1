@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Presantation.FileHelper;
 using RiinvestTravel.App.Implementations;
 using RiinvestTravel.App.Interfaces;
 using RiinvestTravel.Data.Context;
@@ -27,6 +28,9 @@ builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IRolesRepository, RolesRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ISelectListService, SelectListService>();
+builder.Services.AddTransient<ISelectListService, SelectListService>();
+builder.Services.AddTransient<IFileHelper, FileHelper>();
+builder.Services.AddTransient<IThumbnailService, ThumbnailService>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {

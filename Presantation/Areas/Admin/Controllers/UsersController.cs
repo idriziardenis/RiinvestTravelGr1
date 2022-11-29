@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Presantation.Areas.Admin.Models.UsersViewModels;
+using Presantation.FileHelper;
 using RiinvestTravel.App.Constants;
+using RiinvestTravel.App.Enumerations;
 using RiinvestTravel.App.Interfaces;
 using RiinvestTravel.Data.Entities;
 using RiinvestTravel.Data.Identity;
@@ -19,8 +21,9 @@ namespace Presantation.Areas.Admin.Controllers
         private readonly IRolesRepository rolesRepository;
         private readonly ILogger _logger;
         private readonly ISelectListService selectListService;
+        private readonly IFileHelper _fileHelper;
 
-        public UsersController(IUserRepository userRepository, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IRolesRepository rolesRepository, ILogger<UsersController> logger, ISelectListService selectListService)
+        public UsersController(IUserRepository userRepository, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, IRolesRepository rolesRepository, ILogger<UsersController> logger, ISelectListService selectListService, IFileHelper fileHelper)
         {
             this.userRepository = userRepository;
             _userManager = userManager;
@@ -29,6 +32,7 @@ namespace Presantation.Areas.Admin.Controllers
             this.rolesRepository = rolesRepository;
             _logger = logger;
             this.selectListService = selectListService;
+            _fileHelper = fileHelper;
         }
 
         [HttpGet]
@@ -96,9 +100,27 @@ namespace Presantation.Areas.Admin.Controllers
                         
                         _logger.LogInformation("User created a new account with password.");
 
-                        //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        //var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
-                        //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                        if (model.Picture != null)
+                        {
+                            var fileName = Path.GetFileName(model.Picture.FileName);
+                            var uploadPath = "~/uploads/users/" + user.Id.ToString() + "/Image/" + fileName;
+
+                            _fileHelper.SaveFile(FileTypesEnum.Image, model.Picture, "users", user.Id.ToString(), (int)ThumbnailsEnum.Grid, (int)ThumbnailsEnum.Catalog);
+
+                            var findExisting = userRepository.GetUserPicture(user.Id);
+                            if (findExisting != null)
+                            {
+                                userRepository.DeleteUserPicture(findExisting);
+                            }
+                            var variantUpload = new UserPicture
+                            {
+                                FileName = fileName,
+                                Path = uploadPath,
+                                Extension = Path.GetExtension(fileName)
+                            };
+                            userRepository.AddUserPicture(variantUpload);
+
+                        }
 
                         return RedirectToAction("Index");
                     }
