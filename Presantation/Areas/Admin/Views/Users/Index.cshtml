@@ -82,6 +82,10 @@
     $(document).ready( function () {
         var url = "@Url.Action("GetUsersJson", "Users")";
         var table = $("#user-list").DataTable({
+            buttons: [
+                'copy', 'excel', 'pdf'
+            ],
+            dom: 'Bfrtip',
             pageLength: 15,
             responsive: true,
             autoWidth: false,
@@ -96,7 +100,10 @@
                 dataSrc: ""
             },
             columns: [
-                { data: "id", title: "Id", width: "4%" },  
+                { data: "picture", title: "Picture", width: "4%", render: function (a, b, data, d) {
+                          return "<img src='" + data.picture + "'></img>"
+                      }  
+                },  
                 { data: "name", title: "Name" },
                 { data: "surname", title: "Surname",},
                 { data: "email", title: "Email" },

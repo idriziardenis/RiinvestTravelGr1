@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using RiinvestTravel.Data.Entities;
 
 namespace Presantation.Areas.Admin.Models.UsersViewModels
 {
@@ -14,8 +15,11 @@ namespace Presantation.Areas.Admin.Models.UsersViewModels
         public string? PhoneNumber { get; set; } = null!;
         public bool PhoneNumberConfirmed { get; set; }
         public string RoleId { get; set; } = null!;
+        public bool IsPictureDeleted { get; set; }
 
         public IFormFile? Picture { get; set; }
+
+        public UserPicture? UserPicture { get; set; }
 
         public SelectList? Roles { get; set; }
     }

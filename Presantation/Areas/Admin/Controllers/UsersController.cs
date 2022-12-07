@@ -67,6 +67,7 @@ namespace Presantation.Areas.Admin.Controllers
                     PhoneNumberConfirmed = user.PhoneNumberConfirmed,
                     RoleId = rolesRepository.GetByUserId(user.Id)!.Id,
                     Surname = user.Surname!,
+                    UserPicture = user.Picture,
                 };
 
                 model.Roles = new SelectList(selectListService.GetRolesKeysValues(), "SKey", "Value", model.RoleId);
@@ -82,12 +83,14 @@ namespace Presantation.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                string userId = "";
                 if (string.IsNullOrEmpty(model.Id))
                 {
                     var user = new ApplicationUser { Name = model.Name, Surname = model.Surname, UserName = model.Email, Email = model.Email, EmailConfirmed = model.EmailConfirmed, PhoneNumber = model.PhoneNumber, PhoneNumberConfirmed = model.PhoneNumberConfirmed };
                     var result = await _userManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
+                        userId = user.Id;
                         var selectedRole = rolesRepository.GetByStringId(model.RoleId);
                         if(selectedRole != null)
                         {
@@ -99,37 +102,14 @@ namespace Presantation.Areas.Admin.Controllers
                         }
                         
                         _logger.LogInformation("User created a new account with password.");
-
-                        if (model.Picture != null)
-                        {
-                            var fileName = Path.GetFileName(model.Picture.FileName);
-                            var uploadPath = "~/uploads/users/" + user.Id.ToString() + "/Image/" + fileName;
-
-                            _fileHelper.SaveFile(FileTypesEnum.Image, model.Picture, "users", user.Id.ToString(), (int)ThumbnailsEnum.Grid, (int)ThumbnailsEnum.Catalog);
-
-                            var findExisting = userRepository.GetUserPicture(user.Id);
-                            if (findExisting != null)
-                            {
-                                userRepository.DeleteUserPicture(findExisting);
-                            }
-                            var variantUpload = new UserPicture
-                            {
-                                FileName = fileName,
-                                Path = uploadPath,
-                                Extension = Path.GetExtension(fileName)
-                            };
-                            userRepository.AddUserPicture(variantUpload);
-
-                        }
-
-                        return RedirectToAction("Index");
                     }
                 }
                 else
                 {
                     var user = await _userManager.FindByIdAsync(model.Id);
                     if (user != null)
-                    {  
+                    {
+                        userId = user.Id;
                         user.Name = model.Name;
                         user.Surname = model.Surname;
                         //user.Email = model.Email;
@@ -155,6 +135,44 @@ namespace Presantation.Areas.Admin.Controllers
                                 }
                             }
                         }
+
+                        if (model.IsPictureDeleted)
+                        {
+                            var findExisting = userRepository.GetUserPicture(user.Id);
+                            if (findExisting != null)
+                            {
+                                userRepository.DeleteUserPicture(findExisting);
+                            }
+                        }
+                    }
+                }
+
+                if (model.Picture != null)
+                {
+                    var fileName = Path.GetFileName(model.Picture.FileName);
+                    var uploadPath = "~/uploads/users/" + userId.ToString() + "/Image/" + fileName;
+
+                    _fileHelper.SaveFile(FileTypesEnum.Image, model.Picture, "users", userId.ToString(), (int)ThumbnailsEnum.Grid, (int)ThumbnailsEnum.Catalog);
+
+                    var findExisting = userRepository.GetUserPicture(userId);
+                    if (findExisting != null)
+                    {
+                        userRepository.DeleteUserPicture(findExisting);
+                    }
+                    var userPicture = new UserPicture
+                    {
+                        FileName = fileName,
+                        Path = uploadPath,
+                        Extension = Path.GetExtension(fileName)
+                    };
+                    userRepository.AddUserPicture(userPicture);
+
+                    var editUser = userRepository.GetByStringId(userId);
+                    if (editUser != null)
+                    {
+                        editUser.PictureId = userPicture.Id;
+                        userRepository.Update(editUser);
+                        userRepository.SaveChanges();
                     }
                 }
             }
@@ -166,10 +184,11 @@ namespace Presantation.Areas.Admin.Controllers
         public IActionResult GetUsersJson()
         {
             var users = userRepository.GetAllWithRoles();
-
+            users.ForEach(x => x.PasswordHash = userRepository.GetProfilePicturePath(x.Id, (int)ThumbnailsEnum.Grid));
             var result = users.Select(x => new
             {
                 id = x.Id,
+                picture = x.PasswordHash,
                 name = x.Name,
                 surname = x.Surname,
                 email = x.Email,

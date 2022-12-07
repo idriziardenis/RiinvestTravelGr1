@@ -54,6 +54,7 @@
               <!-- /.card-header -->
               <form id="UserForm" asp-action="Add" asp-controller="Users" asp-area="Admin" method="post" enctype="multipart/form-data">
                 <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="IsPictureDeleted" />
                 <div class="card-body">
                     
                       <div class="row">
@@ -259,24 +260,62 @@
                 }
             });
 
-            $("#Picture").fileinput({
-                theme: "fa",
-                showZoom: false,
-                browseOnZoneClick: true,
-                resizeImage: true,
-                resizeImageQuality: 0.3,
-                showRemove: true,
-                showUpload: false,
-                showBrowse: true,
-                showCancel: false,
-                dropZoneEnabled: false,
-                maxFileSize: maxUpload,
-                allowedFileExtensions: uploadExtensions,
-                initialPreviewAsData: true,
-                fileActionSettings: {
+            if ('@Model.Id' == '0') {
+                $("#Picture").fileinput({
+                    theme: "fa",
+                    showZoom: false,
+                    browseOnZoneClick: true,
+                    resizeImage: true,
+                    resizeImageQuality: 0.3,
                     showRemove: true,
+                    showUpload: false,
+                    showBrowse: true,
+                    showCancel: false,
+                    dropZoneEnabled: false,
+                    maxFileSize: maxUpload,
+                    allowedFileExtensions: uploadExtensions,
+                    initialPreviewAsData: true,
+                    fileActionSettings: {
+                        showRemove: true,
+                    }
+                });
+            }
+            else {
+                var previewImageThumbnail = [];
+                var initialPreviewConfigThumbnail = [];
+                @if (Model.UserPicture != null)
+                {
+                    @:previewImageThumbnail.push('@Url.Content(Model.UserPicture.Path)');
+                    @:initialPreviewConfigThumbnail.push({ caption: "@Model.UserPicture.FileName", size: 762980, url: "@Url.Action("DeleteImage", new { id = Model.UserPicture.Id })", key: @Model.UserPicture.Id});
                 }
+                $("#Picture").fileinput({
+                    overwriteInitial: true,//server upload action
+                    theme: "fa",
+                    overwriteInitial: true,
+                    showZoom: false,
+                    browseOnZoneClick: true,
+                    resizeImage: true,
+                    maxFileSize: maxUpload,
+                    allowedFileExtensions: uploadExtensions,
+                    resizeImageQuality: 0.3,
+                    showRemove: true,
+                    showUpload: false,
+                    showBrowse: true,
+                    showCancel: false,
+                    dropZoneEnabled: false,
+                    initialPreview: previewImageThumbnail,
+                    initialPreviewAsData: true,
+                    initialPreviewConfig: initialPreviewConfigThumbnail,
+                    fileActionSettings: {
+                        showRemove: true,
+                    },
+                });
+            }
+
+            $('#Picture').on('fileclear', function(event) {
+                $('#IsPictureDeleted').val("True");
             });
+            
         })
     </script>
 }
